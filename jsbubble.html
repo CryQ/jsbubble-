@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN" “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+<title> test</title>
+<script type="text/javascript" src="apps.js"></script>
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function($) {
+    htmlStr = '<a href="javascript:;" class="btn test111 e1-app-edit-jjj-kkk ">动态生成的元素</a>';
+    $("#end").html(htmlStr);
+
+    function getEventTarget(e){
+        e = e || window.event;
+        return e.target || e.srcElement;
+    }
+
+    $(document.body).bind("click",function(e){
+        var target = getEventTarget(e);
+        targetClassName = target.className;
+        //apps.js
+        cName = "e1-app-";
+        index = targetClassName.indexOf(cName);
+        if(index >= 0){
+           arrClass = targetClassName.split(" ");
+           for(c in arrClass){
+                if(arrClass[c].indexOf(cName) >= 0){
+                    //get the params
+                    params = arrClass[c].split("-");
+                    //get the function name
+                    actionName = params[2];
+                    if(actionName == "edit"){
+                        app.edit(params[3],params[4]);
+                    }else if(actionName == "show"){
+                        app.show(params[3]);
+                    }
+                }
+           }
+        }
+    });
+});
+
+</script>  
+</head>  
+<body>  
+<div class="div111">
+    <a href="javascript:;" class="btn test111 e1-app-edit-11-22 ">访问apps.js的edit函数</a>
+</div> 
+<div class="div111">
+    <a href="javascript:;" class="btn e1-app-show-jack test111">访问apps.js的show函数</a>
+</div>
+<div class="end" id="end">
+</div>
+</body>  
+</html>
